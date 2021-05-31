@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Серверный API дипломного проекта Movies Explorer",
   "main": "app.js",
-  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
@@ -20,7 +19,9 @@
   },
   "homepage": "https://github.com/hyardlung/movies-explorer-api#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.12.12",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "eslint": "^7.27.0",
