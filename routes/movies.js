@@ -1,5 +1,6 @@
 const moviesRouter = require('express').Router();
 const { Joi, celebrate } = require('celebrate');
+const { isURL } = require('validator');
 const auth = require('../middlewares/auth');
 const {
   getFavoritesMovies, addMovieToFavorites, deleteMovieById,
@@ -16,9 +17,30 @@ moviesRouter.post('/movies', celebrate({
     duration: Joi.string().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().uri(),
-    trailer: Joi.string().required().uri(),
-    thumbnail: Joi.string().required().uri(),
+    image: Joi.string().required().custom((value, helpers) => {
+      if (isURL(value, {
+        protocols: ['http', 'https', 'ftp'],
+        require_tld: true,
+        require_protocol: true,
+      })) return value;
+      return helpers.message('Некорректный формат ссылки');
+    }),
+    trailer: Joi.string().required().custom((value, helpers) => {
+      if (isURL(value, {
+        protocols: ['http', 'https', 'ftp'],
+        require_tld: true,
+        require_protocol: true,
+      })) return value;
+      return helpers.message('Некорректный формат ссылки');
+    }),
+    thumbnail: Joi.string().required().custom((value, helpers) => {
+      if (isURL(value, {
+        protocols: ['http', 'https', 'ftp'],
+        require_tld: true,
+        require_protocol: true,
+      })) return value;
+      return helpers.message('Некорректный формат ссылки');
+    }),
     movieId: Joi.string().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
