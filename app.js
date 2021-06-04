@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
@@ -15,6 +16,7 @@ mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
 });
 
+app.use(helmet()); // защита HTTP-заголовков
 app.use(express.json());
 app.use(requestLogger); // логгер запросов
 app.use(router); // роуты
