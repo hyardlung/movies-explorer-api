@@ -20,7 +20,9 @@ mongoose.connect(MONGO_URL, {
 app.use(helmet()); // защита HTTP-заголовков
 app.use(express.json());
 app.use(requestLogger); // логгер запросов
+<<<<<<< HEAD
 app.use(limiter()); // лимитер запросов
+app.use(limiter); // лимитер запросов
 app.use(router); // роуты
 app.use(errorLogger); // логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
