@@ -41,15 +41,15 @@ moviesRouter.post('/movies', celebrate({
       })) return value;
       return helpers.message('Некорректный формат ссылки');
     }),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
 }), addMovieToFavorites);
 
-moviesRouter.delete('/movies/:movieId', celebrate({
+moviesRouter.delete('/movies/:_id', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex(),
+    _id: Joi.string().length(24).hex(),
   }),
 }), deleteMovieById);
 

@@ -46,15 +46,15 @@ const addMovieToFavorites = (req, res, next) => {
 
 // удаление сохранённого фильма по ID
 const deleteMovieById = (req, res, next) => {
-  const { movieId } = req.params;
+  const { _id } = req.params;
   const userId = req.user._id;
-  Movie.findById(movieId)
+  Movie.findById(_id)
     .orFail(new NotFoundError('Фильм с заданным ID не найден'))
     .then((movie) => {
       if (movie.owner !== userId) {
         return next(new ForbiddenError('Нельзя удалить чужой фильм'));
       }
-      return Movie.findByIdAndRemove(movieId)
+      return Movie.findByIdAndRemove(_id)
         .then(() => res.send({ message: 'Фильм успешно удалён' }));
     })
     .catch((err) => {
