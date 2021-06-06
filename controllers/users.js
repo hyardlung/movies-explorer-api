@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-err');
-const UnauthorizedError = require('../errors/unauthorized-err');
 const NotFoundError = require('../errors/not-found-err');
 
 const SALT_ROUNDS = 10;
@@ -26,8 +25,7 @@ const createUser = (req, res, next) => {
       } else {
         next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 // авторизация пользователя
@@ -42,10 +40,7 @@ const login = (req, res, next) => {
       );
       res.send({ token });
     })
-    .catch(() => {
-      throw new UnauthorizedError('Неправильные почта или пароль');
-    })
-    .catch(next);
+    .catch((err) => next(err));
 };
 
 // получение залогиненного пользователя
@@ -84,8 +79,7 @@ const updateProfile = (req, res, next) => {
       } else {
         next(err);
       }
-    })
-    .catch(next);
+    });
 };
 
 module.exports = {
