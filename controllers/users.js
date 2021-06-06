@@ -21,9 +21,10 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные при создании пользователя');
-      }
-      if (err.name === 'MongoError' || err.code === MONGO_DUPLICATE_ERROR_CODE) {
+      } else if (err.name === 'MongoError' && err.code === MONGO_DUPLICATE_ERROR_CODE) {
         throw new ConflictError('Пользователь с таким email уже зарегистрирован');
+      } else {
+        next(err);
       }
     })
     .catch(next);
@@ -78,8 +79,10 @@ const updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные при редактировании профиля');
-      } if (err.name === 'MongoError' || err.code === MONGO_DUPLICATE_ERROR_CODE) {
+      } else if (err.name === 'MongoError' && err.code === MONGO_DUPLICATE_ERROR_CODE) {
         throw new ConflictError('Пользователь с таким email уже зарегистрирован');
+      } else {
+        next(err);
       }
     })
     .catch(next);
