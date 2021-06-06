@@ -61,12 +61,14 @@ const deleteMovieById = (req, res, next) => {
   const { _id } = req.params;
   const userId = req.user._id;
   Movie.findById(_id)
+    .select('+owner')
     .orFail(new NotFoundError('Фильм с заданным ID не найден'))
     .then((movie) => {
-      if (movie.owner !== userId) {
+      if (movie.owner.toString() !== userId) {
         return next(new ForbiddenError('Нельзя удалить чужой фильм'));
       }
       return Movie.findByIdAndRemove(_id)
+        .select('-owner')
         .then(() => res.send({ message: 'Фильм успешно удалён' }));
     })
     .catch((err) => {
