@@ -34,7 +34,19 @@ const addMovieToFavorites = (req, res, next) => {
     nameEN,
     owner,
   })
-    .then((movie) => res.send(movie))
+    .then(() => res.send({
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailer,
+      thumbnail,
+      movieId,
+      nameRU,
+      nameEN,
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании фильма'));
