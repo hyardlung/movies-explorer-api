@@ -57,6 +57,7 @@ const movieSchema = new mongoose.Schema({
   owner: {
     type: String,
     require: true,
+    select: false,
   },
   movieId: {
     type: Number,
