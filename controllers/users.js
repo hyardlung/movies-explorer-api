@@ -75,6 +75,13 @@ const updateProfile = (req, res, next) => {
       email: user.email,
       name: user.name,
     }))
+    .catch((err) => {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
+        throw new BadRequestError('Переданы некорректные данные при редактировании профиля');
+      } if (err.name === 'MongoError' || err.code === MONGO_DUPLICATE_ERROR_CODE) {
+        throw new ConflictError('Пользователь с таким email уже зарегистрирован');
+      }
+    })
     .catch(next);
 };
 
