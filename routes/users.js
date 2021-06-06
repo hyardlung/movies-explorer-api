@@ -20,7 +20,7 @@ userRouter.post('/signup', celebrate({
         return helpers.message('Некорректный формат почты');
       }),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);
 
@@ -50,7 +50,7 @@ userRouter.patch('/users/me', celebrate({
         })) return value;
         return helpers.message('Некорректный формат почты');
       }),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 }), updateProfile);
 

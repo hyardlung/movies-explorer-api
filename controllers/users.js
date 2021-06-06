@@ -19,9 +19,9 @@ const createUser = (req, res, next) => {
     .then(() => res.send({ email, name }))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        throw new BadRequestError('Переданы некорректные данные при создании пользователя');
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
       } else if (err.name === 'MongoError' && err.code === MONGO_DUPLICATE_ERROR_CODE) {
-        throw new ConflictError('Пользователь с таким email уже зарегистрирован');
+        next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
       } else {
         next(err);
       }
@@ -73,9 +73,9 @@ const updateProfile = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        throw new BadRequestError('Переданы некорректные данные при редактировании профиля');
+        next(new BadRequestError('Переданы некорректные данные при редактировании профиля'));
       } else if (err.name === 'MongoError' && err.code === MONGO_DUPLICATE_ERROR_CODE) {
-        throw new ConflictError('Пользователь с таким email уже зарегистрирован');
+        next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
       } else {
         next(err);
       }
