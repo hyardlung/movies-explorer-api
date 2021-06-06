@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongoose').Types;
 const { isURL } = require('validator');
 
 const movieSchema = new mongoose.Schema({
@@ -59,7 +60,7 @@ const movieSchema = new mongoose.Schema({
     },
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: ObjectId,
     require: true,
     select: false,
   },
