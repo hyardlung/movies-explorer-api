@@ -12,6 +12,7 @@ const {
 // роут регистрации пользователя
 userRouter.post('/signup', celebrate({
   body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().lowercase().trim()
       .custom((value, helpers) => {
         if (isEmail(value, {
@@ -20,7 +21,6 @@ userRouter.post('/signup', celebrate({
         return helpers.message('Некорректный формат почты');
       }),
     password: Joi.string().required(),
-    name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);
 
@@ -43,6 +43,7 @@ userRouter.use(auth);
 userRouter.get('/users/me', getProfile);
 userRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().lowercase().trim()
       .custom((value, helpers) => {
         if (isEmail(value, {
@@ -50,7 +51,6 @@ userRouter.patch('/users/me', celebrate({
         })) return value;
         return helpers.message('Некорректный формат почты');
       }),
-    name: Joi.string().required().min(2).max(30),
   }),
 }), updateProfile);
 

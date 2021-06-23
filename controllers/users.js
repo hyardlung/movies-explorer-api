@@ -11,12 +11,12 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 // регистрация пользователя
 const createUser = (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { name, email, password } = req.body;
   bcrypt.hash(password, SALT_ROUNDS)
     .then((hash) => User.create({
-      email, password: hash, name,
+      name, email, password: hash,
     }))
-    .then(() => res.send({ email, name }))
+    .then(() => res.send({ name, email }))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
@@ -48,19 +48,19 @@ const getProfile = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new NotFoundError('Пользователь с таким ID не найден'))
     .then((user) => res.send({
-      email: user.email,
       name: user.name,
+      email: user.email,
     }))
     .catch(next);
 };
 
 // обновление данных пользователя
 const updateProfile = (req, res, next) => {
-  const { email, name } = req.body;
-  if (!email || !name) throw new BadRequestError('Переданы некорректные данные при обновлении пользователя');
+  const { name, email } = req.body;
+  if (!name || !email) throw new BadRequestError('Переданы некорректные данные при обновлении пользователя');
   return User.findByIdAndUpdate(
     req.user._id,
-    { email, name },
+    { name, email },
     {
       new: true,
       runValidators: true,
@@ -68,8 +68,8 @@ const updateProfile = (req, res, next) => {
   )
     .orFail(new NotFoundError('Пользователь с таким ID не найден'))
     .then((user) => res.send({
-      email: user.email,
       name: user.name,
+      email: user.email,
     }))
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
