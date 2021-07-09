@@ -19,6 +19,14 @@ mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
 });
 
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose is connected!');
+});
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('../movies-explorer-frontend/build/'));
+}
+
 app.use(helmet()); // защита HTTP-заголовков
 app.use(express.json());
 app.use(requestLogger); // логгер запросов
@@ -29,4 +37,6 @@ app.use(errorLogger); // логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 app.use(errorHandler); // централизованный обработчик ошибок
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Run on port: ${PORT}`);
+});

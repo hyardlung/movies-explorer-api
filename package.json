@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "lint": "npx eslint ./"
+    "lint": "npx eslint ./",
+    "build": "cd .. && cd movies-explorer-frontend && npm run build",
+    "install-client": "cd .. && cd movies-explorer-frontend && npm i",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "repository": {
     "type": "git",
