@@ -6,7 +6,7 @@ const ForbiddenError = require('../errors/forbidden-err');
 // получение всех сохранённых пользователем фильмов
 const getFavoritesMovies = (req, res, next) => {
   const owner = req.user._id;
-  Movie.find({ owner })
+  Movie.find({ owner }).select('+owner')
     .then((movies) => res.send(movies))
     .catch(next);
 };
@@ -34,19 +34,7 @@ const addMovieToFavorites = (req, res, next) => {
     nameEN,
     owner,
   })
-    .then(() => res.send({
-      country,
-      director,
-      duration,
-      year,
-      description,
-      image,
-      trailer,
-      thumbnail,
-      movieId,
-      nameRU,
-      nameEN,
-    }))
+    .then((movie) => res.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании фильма'));
