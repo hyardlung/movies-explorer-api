@@ -1,5 +1,5 @@
 # [Movies Explorer](https://hyardlung-movies-explorer.nomoredomains.icu)
-Репозиторий для серверного API проекта **News Explorer**.
+Репозиторий для серверного API проекта **Movies Explorer**.
   
 ## IP-адрес сервера на Яндекс.Облаке:
 ~~~
